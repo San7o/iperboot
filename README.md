@@ -2,7 +2,9 @@
 
 A flexible bootloader.
 
-This project builds upon my previous work on the following projects:
+The idea it to write a small bootloader which can boot literally *everywhere*,
+and new targets can be added easily. This project builds upon my previous work
+on the following projects:
 
 - [povOS](https://github.com/San7o/povOS/tree/main/bootloader/x86_64)
 - [rpi3b-OS](https://github.com/San7o/rpi3b-os)
@@ -22,7 +24,7 @@ systems, we need to design several abstractions:
 
 ![boot-diagram](./boot-diagram.png)
 
-This project also provides a fully custom frontend,
+This project also provides a fully custom frontend API,
 [iperboot-protocol](./frontend/iperboot/README.md), inspired by multiboot and
 Linux's boot protocol.
 
