@@ -1,9 +1,10 @@
 BACKEND_OBJ += backend/bios/boot.o
 
-BACKEND_LDFLAGS += -T backend/bios/linker.ld \
-    -target ${ARCH}-unknown-none -nostdlib -static
-
-ASFLAGS += -f elf64 -i backend/bios/
+BACKEND_CFLAGS  += -target ${ARCH}-unknown-none
+BACKEND_LDFLAGS += -T backend/bios/link.ld \
+    -nostdlib \
+    -static
+BACKEND_ASFLAGS += -f elf64 -i backend/bios/
 
 # Image
 
@@ -11,15 +12,12 @@ BACKEND_OUT  = backend/bios/bios.img
 IPERBOOT_IMG = ${BACKEND_OUT}
 DIST_OBJ += ${IPERBOOT_IMG}
 
-${IPERBOOT_IMG}: ${BACKEND_OUT}
-	cp ${BACKEND_OUT} ${IPERBOOT_IMG}
+# Booting
 
-# Runtime
-
-QEMU_FLAGS = -drive format=raw,file=${IPERBOOT_IMG},if=ide \
-    -serial stdio
+QEMU_FLAGS = -serial stdio \
+    -drive format=raw,file=${IPERBOOT_IMG},if=ide
 
 .PHONY: qemu
-qemu: ${IPERBOOT_IMG}
+qemu: ${IPERBOOT_IMG} ## Run image with qemu
 	${QEMU} ${QEMU_FLAGS}
 

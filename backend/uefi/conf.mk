@@ -42,7 +42,7 @@ ${FAT_IMG}: ${EFI_BIN}
 ${HD_IMG}: ${MKGPT_BIN} ${FAT_IMG}
 	${MKGPT_BIN} -o ${HD_IMG} --image-size 4096 --part ${FAT_IMG} --type system
 
-# Runtime
+# Booting
 
 OVMF_DIR ?= /usr/share/OVMF
 

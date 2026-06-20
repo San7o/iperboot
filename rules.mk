@@ -4,7 +4,7 @@
 # Github:  @San7o
 
 ${BACKEND_OUT}: ${BACKEND_OBJ} ${BACKEND_DEPS}
-	${CC} ${BACKEND_LDFLAGS} -o ${BACKEND_OUT} ${BACKEND_OBJ}
+	${LD} ${BACKEND_LDFLAGS} -o ${BACKEND_OUT} ${BACKEND_OBJ}
 	@echo "backend done"
 
 ${FRONTEND_OUT}: ${FRONTEND_OBJ} ${FRONTEND_DEPS}
@@ -14,8 +14,11 @@ ${FRONTEND_OUT}: ${FRONTEND_OBJ} ${FRONTEND_DEPS}
 backend/%.o: backend/%.c
 	${CC} ${BACKEND_CFLAGS} -c -o $@ $^
 
+backend/%.o: backend/%.asm
+	${AS} ${BACKEND_ASFLAGS} -o $@ $^
+
 frontend/%.o: frontend/%.c
 	${CC} ${FRONTEND_CFLAGS} -c -o $@ $^
 
-%.o: %.asm
-	${AS} ${ASFLAGS} -o $@ $^
+frontend/%.o: frontend/%.asm
+	${AS} ${FRONTEND_ASFLAGS} -o $@ $^
