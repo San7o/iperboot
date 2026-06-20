@@ -1,0 +1,3 @@
+[submodule "external/mkgpt"]
+	path = external/mkgpt
+	url = https://github.com/jncronin/mkgpt.git

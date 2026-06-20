@@ -22,5 +22,15 @@ EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 
     while ((Status = ST->ConIn->ReadKeyStroke(ST->ConIn, &Key)) == EFI_NOT_READY) ;
 
+    /*
+      TODO: call ExitBootServices
+
+    EFI_STATUS
+      (EFIAPI *EFI_EXIT_BOOT_SERVICES) (
+            IN EFI_HANDLE ImageHandle,
+            IN UINTN MapKey
+       )
+    */
+    
     return Status;
 }

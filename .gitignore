@@ -1,0 +1,6 @@
+*.o
+*_backend
+*_frontend
+*.img
+*.bin
+*.EFI
