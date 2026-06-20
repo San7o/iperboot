@@ -41,8 +41,19 @@ Linux's boot protocol.
 
 ## Usage
 
-```
+```bash
 git clone --recurse-submodules https://github.com/San7o/iperboot.git
 cd iperboot
-make BACKEND=uefi
+
+make
+make img
+make qemu
+```
+
+Select which backend to use (defualt is `eufi`):
+
+```bash
+make BACKEND=bios
+make img BACKEND=bios
+make qemu BACKEND=bios
 ```

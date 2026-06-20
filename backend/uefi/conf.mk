@@ -21,18 +21,16 @@ BACKEND_LDFLAGS += -target ${ARCH}-unknown-windows \
 
 MKGPT_DIR       ?= external/mkgpt
 MKGPT_BIN       ?= ${MKGPT_DIR}/mkgpt
-EFI_BIN         ?= BOOT${EDK2_ARCH}.EFI
-FAT_IMG         ?= fat.img
-HD_IMG          ?= hdimage.bin
+EFI_BIN         ?= backend/uefi/BOOT${EDK2_ARCH}.EFI
+FAT_IMG         ?= backend/uefi/fat.img
+HD_IMG          ?= backend/uefi/hdimage.bin
 IPERBOOT_IMG     = ${HD_IMG}
 
+BACKEND_OUT      = ${EFI_BIN}
 DIST_OBJ        += ${EFI_BIN} ${FAT_IMG} ${HD_IMG} ${MKGPT_BIN}
 
 ${MKGPT_DIR}/mkgpt:
 	cd ${MKGPT_DIR} && autoreconf -f -i && ./configure && make
-
-${EFI_BIN}: ${BACKEND_OUT}
-	cp ${BACKEND_OUT} ${EFI_BIN}
 
 ${FAT_IMG}: ${EFI_BIN}
 	dd if=/dev/zero of=${FAT_IMG} bs=1k count=1440
@@ -55,4 +53,4 @@ QEMU_FLAGS = -M q35 \
 
 .PHONY: qemu
 qemu: ${HD_IMG} ## Run image with qemu
-	qemu-system-${ARCH} ${QEMU_FLAGS}
+	${QEMU} ${QEMU_FLAGS}

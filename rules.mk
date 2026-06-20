@@ -18,4 +18,4 @@ frontend/%.o: frontend/%.c
 	${CC} ${FRONTEND_CFLAGS} -c -o $@ $^
 
 %.o: %.asm
-	${AS} -o $@ $^
+	${AS} ${ASFLAGS} -o $@ $^

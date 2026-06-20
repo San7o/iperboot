@@ -13,6 +13,7 @@ CFLAGS  ?= -Wall -Werror -Wextra -Wpedantic \
            -std=c23 -Wno-language-extension-token \
            -Wno-microsoft-enum-value
 LDFLAGS ?=
+ASFLAGS ?=
 
 BACKEND_CFLAGS   ?=
 BACKEND_LDFLAGS  ?=
@@ -20,10 +21,10 @@ BACKEND_LDFLAGS  ?=
 FRONTEND_CFLAGS  ?=
 FRONTEND_LDFLAGS ?=
 
-BACKEND_OUT      ?= iperboot_${BACKEND}_backend
-FRONTEND_OUT     ?= iperboot_${FRONTEND}_frontend
+BACKEND_OUT      ?=
+FRONTEND_OUT     ?=
 
-DIST_OBJ = ${BACKEND_OUT} ${FRONTEND_OUT}
+QEMU ?= qemu-system-${ARCH}
 
 include backend/${BACKEND}/conf.mk
 
@@ -32,3 +33,5 @@ BACKEND_LDFLAGS  += ${LDFLAGS}
 
 FRONTEND_CFLAGS  += ${CFLAGS}
 FRONTEND_LDFLAGS += ${LDFLAGS}
+
+DIST_OBJ += ${BACKEND_OUT} ${FRONTEND_OUT}

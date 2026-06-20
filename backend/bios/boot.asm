@@ -1,23 +1,22 @@
   ;; -----------------------------------------------------------------
   ;;
-  ;; Bootloader
-  ;; ==========
+  ;; Bios Bootloader
+  ;; ===============
   ;;
-  ;; The BIOS boot sequence for x86_64 looks like this:
+  ;; This program is loaded and called by the legacy BIOS.
+  ;; 
+  ;; The boot sequence for x86_64 (what this program does) looks like this:
   ;;
-  ;;  - CPU starts executing in 16-bit real mode, with BIOS access
-  ;;  - Use the bios to load the rest of the bootloader
+  ;;  - The BIOS loads the first sector (512 bytes) at address 0x7C00
+  ;;  - CPU starts executing in 16-bit real mode, we can use BIOS interrupts
+  ;;  - Load the rest of the bootloader
   ;;  - Setup and load the GDT with a flat memory layout
   ;;  - Go to protected mode
-  ;;  - Enable A20 line
+  ;;  - Enable A20 line if necessary
   ;;  - Setup GDT again
   ;;  - Setup the page table
   ;;  - Enable long mode
-  ;;  - Call the kernel main function
-  ;;
-  ;; To keep it simple, all these steps are called from this file,
-  ;; starting with the Master Boot Record.
-  ;;
+  ;;  - Jump to bootloader core
   ;;
   ;; Memory Layout
   ;; -------------
@@ -48,23 +47,23 @@
   ;; Master Boot Record (Stage 1)
   ;; ----------------------------
   ;;
-  ;; To start the bootloader, the first sector of the disk / floppy is
-  ;; loaded into memory and executed. This first special sector is
-  ;; called the "Master Boot Record" aka MBR aka "Stage 1" and is
-  ;; identified by a magic number 0xAA55 in the last two bytes of the
-  ;; sector (this is required or the BIOS will not boot us!). The
-  ;; instructions have to expect to be loaded at address 0x7C00.
+  ;; To start the bootloader, the first sector of the disk / floppy is loaded
+  ;; into memory and executed. This first special sector is called the "Master
+  ;; Boot Record" aka MBR aka "Stage 1" and is identified by a magic number
+  ;; 0xAA55 in the last two bytes of the sector (this is required or the BIOS
+  ;; will not boot us!). The instructions have to expect to be loaded at address
+  ;; 0x7C00.
   ;;
-  ;; The MBR needs to load the rest of the bootloader into memory in
-  ;; order to continue execution. This is his main responsibility.
+  ;; The MBR needs to load the rest of the bootloader into memory in order to
+  ;; continue execution. This is his main responsibility.
   ;; 
 
-  %include "bootloader/x86_64/defines.asm"
+  %include "defines.asm"
   
-  [org $BOOTLOADER_START]         ; Set program origin
   [bits 16]                       ; We are in 16-bit real mode
 
-start:
+  global bios_entry
+bios_entry:
   ;; not yet... the actual start is a bit further down
   jmp short begin_bootloader ; Workaround for some BIOSes that require this stub
   
@@ -160,11 +159,11 @@ begin_bootloader:
   call bios_sector_2            ; go to next sector
   
   ;; Includes
-  %include "bootloader/x86_64/real_mode/print.asm"
-  %include "bootloader/x86_64/real_mode/print_hex.asm"
-  %include "bootloader/x86_64/real_mode/load.asm"
-  %include "bootloader/x86_64/real_mode/gdt.asm"
-  %include "bootloader/x86_64/real_mode/elevate.asm"
+  %include "real_mode/print.asm"
+  %include "real_mode/print_hex.asm"
+  %include "real_mode/load.asm"
+  %include "real_mode/gdt.asm"
+  %include "real_mode/elevate.asm"
 
 real_hello_str:    db `\r\nHello, from BIOS!\r\n`, 0
 boot_drive_id: db 0x00          ; boot drive storage, initialized at
@@ -190,7 +189,7 @@ partition_table:
   ;;
   
   ;; 
-  ;; Here we can still access the BIOS for additional setup
+  ;; Here we can still access the BIOS interrupts for additional setup
   ;;
   
   [bits 16]
@@ -209,7 +208,7 @@ bios_sector_2:
   jmp $                         ; infinite loop
   
   ;; Includes
-  %include "bootloader/x86_64/real_mode/memory_map.asm"
+  %include "real_mode/memory_map.asm"
 
   ;; Pad sector
   times 512 - ($ - bios_sector_2) db 0x00
@@ -269,9 +268,9 @@ begin_protected_mode:
   jmp .hang
 
   ;; Includes
-  %include "bootloader/x86_64/protected_mode/clear.asm"
-  %include "bootloader/x86_64/protected_mode/print.asm"
-  %include "bootloader/x86_64/protected_mode/detect_lm.asm"
+  %include "protected_mode/clear.asm"
+  %include "protected_mode/print.asm"
+  %include "protected_mode/detect_lm.asm"
   
   ;; Pad sector
   times 512 - ($ - protected_mode_sector) db 0x00
@@ -283,10 +282,10 @@ begin_protected_mode:
 protected_mode_sector_utils:
   
   ;; Includes
-  %include "bootloader/x86_64/protected_mode/init_pt.asm"
-  %include "bootloader/x86_64/protected_mode/gdt.asm"
-  %include "bootloader/x86_64/protected_mode/enable_A20.asm"
-  %include "bootloader/x86_64/protected_mode/elevate.asm"
+  %include "protected_mode/init_pt.asm"
+  %include "protected_mode/gdt.asm"
+  %include "protected_mode/enable_A20.asm"
+  %include "protected_mode/elevate.asm"
 
   ;; Constants
 error_enabling_A20_string:  db `Error enabling A20 line`, 0
@@ -311,7 +310,7 @@ long_mode_sector:
   [bits 64]
 
   ;; Includes
-  %include "bootloader/x86_64/long_mode/vga.asm"
+  %include "long_mode/vga.asm"
   
 
 begin_long_mode:
@@ -329,7 +328,7 @@ begin_long_mode:
   add rsp, $HIGHER_HALF
   
   ;; Jump to main
-  call $KERNEL_MAIN_ADDR
+  ;; call $KERNEL_MAIN_ADDR
 
   .hang:
   jmp $
