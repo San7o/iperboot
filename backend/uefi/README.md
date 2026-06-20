@@ -34,3 +34,10 @@ CPU:
   - `CR0.EM` must be zero
   - `CR0.TS` must be zero
 - AArch64: TODO
+
+## Booting
+
+To boot the image with qemu, you need an UEFI firmware like OVMF. You can follow
+these instructions to build it from source:
+
+    https://san7o.github.io/home-lab/kerneldev/edk2.html
