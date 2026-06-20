@@ -11,7 +11,7 @@ my previous work on the following projects:
 - [hello-efi](https://github.com/San7o/hello-efi)
 - [santOS](https://github.com/San7o/santOS)
 
-To start off, I am planning to implement booting the following platforms:
+To start off, I am planning to implement booting on the following platforms:
 
 - UEFI (x86_64, ARM)
 - Legacy BIOS (x86_64)
@@ -19,7 +19,8 @@ To start off, I am planning to implement booting the following platforms:
 - Raspberry Pi 3 (ARM)
 - Grub (x86_64)
 
-Eventually I will support RISC-V and other boards like the BeagleBone Black.
+Eventually I will support RISC-V and other boards like the BeagleBone Black,
+Raspberry Pi Pico 2, the STM32s and many others.
 
 ## Design
 
