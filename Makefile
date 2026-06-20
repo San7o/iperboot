@@ -3,9 +3,9 @@
 # Mail:    giovanni.santini@proton.me
 # Github:  @San7o
 
-include config.mk
-
 all: iperboot
+
+include config.mk
 
 .PHONY: iperboot
 iperboot: frontend backend ## Build the entire bootloader

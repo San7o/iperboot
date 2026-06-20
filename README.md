@@ -44,5 +44,5 @@ Linux's boot protocol.
 ```
 git clone --recurse-submodules https://github.com/San7o/iperboot.git
 cd iperboot
-make
+make BACKEND=uefi
 ```

@@ -7,6 +7,7 @@ ARCH     ?= x86_64
 BACKEND  ?= uefi
 FRONTEND ?= iperboot
 CC        = clang # We only support clang for now
+AS        = nasm
 
 CFLAGS  ?= -Wall -Werror -Wextra -Wpedantic \
            -std=c23 -Wno-language-extension-token \

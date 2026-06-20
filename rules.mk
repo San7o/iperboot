@@ -8,7 +8,7 @@ ${BACKEND_OUT}: ${BACKEND_OBJ} ${BACKEND_DEPS}
 	@echo "backend done"
 
 ${FRONTEND_OUT}: ${FRONTEND_OBJ} ${FRONTEND_DEPS}
-	${CC} ${BACKEND_LDFLAGS} -o ${BACKEND_OUT} ${BACKEND_OBJ}
+	#${CC} ${FRONTEND_LDFLAGS} -o ${FRONTEND_OUT} ${FRONTEND_OBJ}
 	@echo "frontend done"
 
 backend/%.o: backend/%.c
@@ -16,3 +16,6 @@ backend/%.o: backend/%.c
 
 frontend/%.o: frontend/%.c
 	${CC} ${FRONTEND_CFLAGS} -c -o $@ $^
+
+%.o: %.asm
+	${AS} -o $@ $^
