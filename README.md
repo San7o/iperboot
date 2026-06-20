@@ -1,4 +1,4 @@
-![](./banner.png)
+![](./banner.jpeg)
 
 A flexible bootloader.
 
