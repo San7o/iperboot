@@ -2,9 +2,9 @@
 
 A flexible bootloader.
 
-I want to write a small bootloader which can boot literally *everywhere*, and
-where you can easily add new platforms. This project builds upon my previous
-work on the following projects:
+I want to write a small bootloader which can boot literally *everywhere* and
+boot *anything*, and which lets you easily add new platforms. This project
+builds upon my previous work on the following projects:
 
 - [povOS](https://github.com/San7o/povOS/tree/main/bootloader/x86_64)
 - [rpi3b-OS](https://github.com/San7o/rpi3b-os)
@@ -44,7 +44,9 @@ Linux's boot protocol.
 ```bash
 git clone --recurse-submodules https://github.com/San7o/iperboot.git
 cd iperboot
+```
 
+```
 make
 make img
 make qemu
