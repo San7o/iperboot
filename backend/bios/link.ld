@@ -9,7 +9,6 @@ SECTIONS
         *(.boot_text)
         *(.text)
 
-
         . = 0x7DFE;
         SHORT(0xAA55);
     }
