@@ -17,7 +17,7 @@ backend: ${BACKEND_OUT} ## Build the backend
 .PHONY: frontend
 frontend: ${FRONTEND_OUT} ## Build the frontend
 
-.PHONY: img
+.PHONY: img ## Build a bootable image
 img: ${IPERBOOT_IMG}
 
 .PHONY: clean

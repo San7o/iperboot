@@ -26,7 +26,7 @@ FAT_IMG         ?= fat.img
 HD_IMG          ?= hdimage.bin
 IPERBOOT_IMG     = ${HD_IMG}
 
-DIST_OBJ        += ${EFI_BIN} ${IMG} ${HDIMG} ${MKGPT_BIN}
+DIST_OBJ        += ${EFI_BIN} ${FAT_IMG} ${HD_IMG} ${MKGPT_BIN}
 
 ${MKGPT_DIR}/mkgpt:
 	cd ${MKGPT_DIR} && autoreconf -f -i && ./configure && make
@@ -54,5 +54,5 @@ QEMU_FLAGS = -M q35 \
     -drive if=pflash,format=raw,file=${OVMF_DIR}/OVMF_VARS.fd
 
 .PHONY: qemu
-qemu: ${HD_IMG}
+qemu: ${HD_IMG} ## Run image with qemu
 	qemu-system-${ARCH} ${QEMU_FLAGS}
