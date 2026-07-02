@@ -67,7 +67,7 @@ make img
 make qemu
 ```
 
-Select which backend to use (defualt is `eufi`):
+Select which backend to use (defualt is `uefi`):
 
 ```bash
 make BACKEND=bios
