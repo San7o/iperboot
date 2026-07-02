@@ -40,14 +40,14 @@ The boot process itself is divided in multiple phases, inspired by [coreboot](ht
 
 ![boot-sequence](./boot-sequence.png)
 
-- bootblock: the first stage executed after CPU reset, sets up an environment to
+- `bootblock`: the first stage executed after CPU reset, sets up an environment to
   run C
-- romstage: initialize DRAM
-- postcar: leave CAR (Cache As Ram) and load ramstage
-- ramstage: main device init
-- iperboot proper: common initialization and bootloader logic, loads the OS in
+- `romstage`: initialize DRAM
+- `postcar`: leave CAR (Cache As Ram) and load ramstage
+- `ramstage`: main device init
+- `iperboot proper`: common initialization and bootloader logic, loads the OS in
   memory
-- payload (the OS)
+- `payload` (the OS)
 
 This project also defines a fully custom frontend API,
 [iperboot-protocol](./frontend/iperboot/README.md), inspired by multiboot and
