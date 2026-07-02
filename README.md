@@ -27,7 +27,8 @@ Raspberry Pi Pico 2, the STM32s and many others.
 To make the bootloader work with multiple platforms and load many operating
 systems, we need to design some abstractions:
 
-- `backend`: the code that gets executed right after the firmware
+- `backend`: the code that gets executed right after the CPU powers on, or after
+  some other firmware
 - `core`: the internal API exposed by the backend and used by the frontend, and
   common code
 - `frontend`: the frontend sets up the CPU in a well defined state for the OS.
