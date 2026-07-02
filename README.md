@@ -38,6 +38,8 @@ systems, we need to design some abstractions:
 
 The boot process itself is divided in multiple phases, inspired by [coreboot](https://doc.coreboot.org/getting_started/architecture.html):
 
+![boot-sequence](./boot-sequence.png)
+
 - bootblock: the first stage executed after CPU reset, sets up an environment to
   run C
 - romstage: initialize DRAM
