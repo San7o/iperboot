@@ -36,6 +36,17 @@ systems, we need to design some abstractions:
 
 ![boot-diagram](./boot-diagram.png)
 
+The boot process itself is divided in multiple phases, inspired by [coreboot](https://doc.coreboot.org/getting_started/architecture.html):
+
+- bootblock: the first stage executed after CPU reset, sets up an environment to
+  run C
+- romstage: initialize DRAM
+- postcar: leave CAR (Cache As Ram) and load ramstage
+- ramstage: main device init
+- iperboot proper: common initialization and bootloader logic, loads the OS in
+  memory
+- payload (the OS)
+
 This project also defines a fully custom frontend API,
 [iperboot-protocol](./frontend/iperboot/README.md), inspired by multiboot and
 Linux's boot protocol.
