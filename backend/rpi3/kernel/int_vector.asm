@@ -1,9 +1,9 @@
   .extern common_int_handler
-  
+
   .global int_vector
 
   .align 11
-  
+
 int_vector:
 
   // synchronous

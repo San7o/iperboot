@@ -2,7 +2,15 @@
 
   .extern int_vector
   .extern main
-  
+
+// Reset Vector
+// ------------
+//
+// On ARMv8, the reset vector is not a vector anymore, but just the point where
+// the CPU jumps to after reset. So the term "reset vector", "reset entry
+// point" and "reset address" can be used interchangeably.
+// The actual interrupt vector is set dynamically later, like in x86
+
   .global _start
 
 _start:
@@ -11,11 +19,10 @@ _start:
   and x1, x1, #3
   cbz x1, 2f
 
-1:
-  wfe
-  b hang
+  b hcf
+
 2:
-  // set top of stack just before our code
+  // set top of stack just before our code, which is  0x80000
   ldr x1, =_start
 
   // set up EL1
@@ -74,8 +81,12 @@ _start:
   sub w2, w2, #1
   cbnz w2, 3b
 
+  // Debug
+  b hcf
+
 4:
   bl main
 
-hang: 
-  b hang
+hcf: // halt and catch fire
+  wfi
+  b hcf
